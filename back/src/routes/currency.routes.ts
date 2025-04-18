@@ -34,7 +34,7 @@ router.post("/get-start-data", async (req, res) => {
             rate:
                 currency.Cur_Abbreviation === "BYN"
                     ? bynValue
-                    : ((bynValue * currency.Cur_Scale) / currency.Cur_OfficialRate).toFixed(2),
+                    : ((bynValue * currency.Cur_Scale) / currency.Cur_OfficialRate).toFixed(4),
             scale: currency.Cur_Scale,
         }));
 

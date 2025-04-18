@@ -64,11 +64,8 @@ export default function App(){
    <CurrencyDropdown/>
 
     <div className='converter-container'>
-
-    
-    <DynamicComponents />
+    {/* <DynamicComponents /> */}
     <CurrencyConverter/>
-
     </div>
     
   

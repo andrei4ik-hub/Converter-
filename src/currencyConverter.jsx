@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCurrencies, updateCurrency } from "./converterSlice";
+import './index.css'
 
 const CurrencyConverter = () => {
     const { currencies, loading, error } = useSelector((state) => state.converter);
@@ -21,17 +22,19 @@ const CurrencyConverter = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="converter">
+        <div className="converter-container">
             <h1>Currency Converter</h1>
             {currencies.map((currency) => (
-                <div key={currency.abbreviation} className="converter-item">
-                    <strong>{currency.abbreviation}</strong>
-                    <input
+                <div key={currency.abbreviation} className="converter-container_item">
+                    <div className="converter-container_input_line">
+                    <strong className="valuta">{currency.abbreviation}</strong>
+                    <input className="input"
                         type="number"
                         value={currency.rate}
                         onChange={(e) => handleInputChange(currency.abbreviation, e.target.value)}
                     />
-                    <p>{currency.name}</p>
+                    </div>
+                    <p className="converter-container__item-currency-name">{currency.name}</p>
                 </div>
             ))}
         </div>

@@ -1,0 +1,71 @@
+
+.converter_container{
+    margin: auto ;
+    width : 400px;
+    display: block;
+    align-items: center;
+    justify-content: start;
+    padding: 15px 35px 20px 15px;
+    background-color: #ebf6fb;
+    border-radius: 12px;
+  }
+  .title{
+    display: flex;
+    justify-content:center ;
+  }
+  
+  
+  .container_item{
+  margin-bottom: 10px;
+  }
+  
+  .abbreviation{
+  color: rgb(14, 24, 41);
+  font-family: roboto-bold, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  height: 24px;
+  line-height: 24px;
+  margin: 0px;
+  margin-right: 7px;
+  text-transform: uppercase;
+  width: 35px;
+  }
+  
+  .desc{
+  margin-top: 5px;
+  font-size: 12px;
+  color: #999;
+  line-height: 1.2;
+  text-align: right;
+  
+  }
+  
+  .input_line{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  }
+  
+  .input{
+    padding: 10px;
+    width : 320px;
+    border-radius: 2px;
+    border: 1px solid #b4c6d2;
+    color: black;
+    font-size: 16px;
+  }
+  
+  .input:hover{
+    box-shadow: inset 0 0 3px rgba(33,33,33,.2);
+  }
+  
+  .input:focus, :focus-visible{
+    border: 1px solid #66afe9;
+    box-shadow:  0 0 5px rgba(33,33,33,.2);
+  }
+  
+  
+  .input:active{
+    border-width: 1px;
+  }
+  

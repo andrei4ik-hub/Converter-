@@ -15,11 +15,11 @@ const CurrencyConverter = () => {
     const handleInputChange = (abbreviation, value) => {
         const newRate = parseFloat(value);
         if (!isNaN(newRate) && newRate > 0) {
-            dispatch(updateCurrencyThunk({ abbreviation, rate: newRate }));
+            dispatch(updateCurrencyThunk({ abbreviation, rate: newRate, currencies:currencies }));
         }
     };
     
-    console.log(currencies)
+
     if (loading) return <p>Loading currencies...</p>;
     if (error) return <p>Error: {error}</p>;
 

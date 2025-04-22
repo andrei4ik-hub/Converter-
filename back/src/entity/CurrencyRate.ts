@@ -3,24 +3,24 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 @Entity()
 export class CurrencyRate {
     @PrimaryGeneratedColumn()
-    id: number = 0;
+    id: number;
 
-    @Column()
-    Cur_ID: number = 0;
+    @Column({name:"cur_id"})
+    curId: number;
 
-    @Column()
-    Date: string = '';
+    @Column({name:"cur_date"})
+    date: string;
 
-    @Column()
-    Cur_Abbreviation: string = '';
+    @Column({name:"cur_abbreviation"})
+    curAbbreviation: string;
 
-    @Column()
-    Cur_Scale: number = 0 ;
+    @Column({name:"cur_scale"})
+    curScale: number;
 
-    @Column()
-    Cur_Name: string = '';
+    @Column({name:"cur_name"})
+    curName: string;
 
-    @Column("float")
-    Cur_OfficialRate: number = 0;
+    @Column("float",{name:"cur_officcial_rate"})
+    curOfficialRate: number;
 }
 

@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import currencyData from "../initialValutes.json";
 import { fetchCurrencies, updateCurrency } from "../api/apiClient";
 
 
+const initialCurrencies = ["BYN", "USD", "EUR", "RUB", "PLN","CNY","TRY"];
+
 export const fetchCurrenciesThunk = createAsyncThunk("converter/fetchCurrencies", async () => {
-    const response = await fetchCurrencies(currencyData.abbreviations);
-    console.log("data:",response)
+    const response = await fetchCurrencies(initialCurrencies);
     return response;
 });
 
-export const updateCurrencyThunk = createAsyncThunk("converter/updateCurrency", async ({ abbreviation, rate }) => {
-    const response = await updateCurrency(abbreviation, rate);
+export const updateCurrencyThunk = createAsyncThunk("converter/updateCurrency", async ({ abbreviation, rate, currencies }) => {
+    const response = await updateCurrency(abbreviation, rate, currencies);
     return response;
 });
 

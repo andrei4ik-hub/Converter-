@@ -36,9 +36,36 @@ router.post("/update-currency", async (req, res) => {
     );
     res.status(200).json(updatedData);
   } catch (error) {
-    console.error("Update error:", error);
+    console.error("Update error:", req.body);
     res.status(500).json({ error});
   }
 });
+
+router.get("/get-currencies", async (req, res) => {
+    try {
+      const currencies = await currencyService.getAllCurrencies();
+      res.status(200).json(currencies);
+    } catch (error) {
+      console.error("Error fetching currencies list:", error);
+      res.status(500).json({ error: "Failed to fetch currencies list" });
+    }
+  });
+
+
+router.post("/calculate-currency", async (req, res) => {
+    try {
+      const { baseAbbreviation, baseRate, targetAbbreviation } = req.body;
+      
+      const result = await currencyService.calculateCurrencyRate(
+        baseAbbreviation,
+        parseFloat(baseRate),
+        targetAbbreviation
+      );
+      
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  });
 
 export default router;

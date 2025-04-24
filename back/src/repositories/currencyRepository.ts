@@ -19,7 +19,9 @@ export class CurrencyRepository {
   async saveRates(rates: CurrencyRate[]): Promise<void> {
     await this.repository.save(rates);
   }
+  
 
+  
   async clearAndReset(): Promise<void> {
     try {
       await this.repository.clear();
@@ -30,21 +32,33 @@ export class CurrencyRepository {
     }
   }
 
-  async findByAbbreviations(abbreviations: string[]): Promise<CurrencyRate[]> {
-    return this.repository.find({
-      where: { curAbbreviation: In([...abbreviations, "BYN"]) }
+  async findByAbbreviation(abbreviation: string): Promise<CurrencyRate | null> {
+    return this.repository.findOne({ 
+      where: { curAbbreviation: abbreviation } 
     });
   }
 
+  async findByAbbreviations(abbreviations: string[]): Promise<CurrencyRate[]> {
+    return this.repository.find({
+      where: { curAbbreviation: In(abbreviations) }
+    });
+  }
+
+
+
+  async findAll(): Promise<CurrencyRate[]> {
+    return this.repository.find();
+  }
   async createBynCurrency(): Promise<CurrencyRate> {
     const bynCurrency = this.create({
       curId: 900,
       date: new Date().toISOString().split('T')[0].split('-').reverse().join('.'),
       curAbbreviation: "BYN",
       curScale: 1,
-      curName: "белорусский рубль",
+      curName: "Белорусский рубль",
       curOfficialRate: 1,
     });
     return this.repository.save(bynCurrency);
   }
+  
 }

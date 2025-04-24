@@ -20,10 +20,24 @@ export class CurrencyService {
     }
   }
 
-  async getExchangeData(abbreviations: string[], baseValue: number = 10.00) {   // инициализация бел рублей
-    const currencies = await this.currencyRepository.findByAbbreviations(abbreviations);
-    return this.calculateRates(currencies, baseValue);
-  }
+  async getExchangeData(abbreviations: string[]) {
+    const requiredAbbreviations = [...abbreviations, 'USD', 'BYN'];
+    const currencies = await this.currencyRepository.findByAbbreviations(requiredAbbreviations);
+    const usdCurrency = currencies.find(c => c.curAbbreviation === 'USD');
+    const bynCurrency = currencies.find(c => c.curAbbreviation === 'BYN');
+    
+    if (!usdCurrency || !bynCurrency) {
+        throw new Error("USD or BYN not found in the database");
+    }
+
+    const baseValue = usdCurrency.curOfficialRate / usdCurrency.curScale;
+    
+    const calculatedRates = this.calculateRates(currencies, baseValue);
+    
+
+    const responseAbbreviations = new Set([...abbreviations, 'BYN']);
+    return calculatedRates.filter(rate => responseAbbreviations.has(rate.abbreviation));
+}
 
   async updateCurrencyRate(abbreviation: string, newRate: number, currencies: string[]) {
     const dbCurrencies = await this.currencyRepository.findByAbbreviations(currencies);
@@ -56,7 +70,15 @@ export class CurrencyService {
     return ((baseValue * currency.curScale) / currency.curOfficialRate).toFixed(2);
   }
 
-  
+
+    async getAllCurrencies(): Promise<Array<{curAbbreviation: string, curName: string}>> {
+        const currencies = await this.currencyRepository.findAll();
+        return currencies.map(currency => ({
+        curAbbreviation: currency.curAbbreviation,
+        curName: currency.curName
+        }));
+    }
+
   private transformApiData(apiData: any[]): CurrencyRate[] {
     return apiData.map(item => 
       this.currencyRepository.create({
@@ -68,6 +90,34 @@ export class CurrencyService {
         curOfficialRate: item.Cur_OfficialRate,
       })
     );
+  }
+  
+  async calculateCurrencyRate(
+    baseAbbreviation: string,
+    baseRate: number,
+    targetAbbreviation: string
+  ) {
+   
+    const baseCurrency = await this.currencyRepository.findByAbbreviation(baseAbbreviation);
+    const targetCurrency = await this.currencyRepository.findByAbbreviation(targetAbbreviation);
+  
+    if (!baseCurrency || !targetCurrency) {
+      throw new Error("One of currencies not found in database");
+    }
+  
+  
+    
+    const rate = (
+      (baseRate * baseCurrency.curOfficialRate) / 
+      targetCurrency.curOfficialRate
+    ).toFixed(4);
+  
+    return {
+      abbreviation: targetCurrency.curAbbreviation,
+      name: targetCurrency.curName,
+      rate: rate,
+      scale: targetCurrency.curScale
+    };
   }
 }
 

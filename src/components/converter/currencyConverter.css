@@ -14,7 +14,6 @@
     justify-content:center ;
   }
   
-  
   .container_item{
   margin-bottom: 10px;
   }
@@ -41,12 +40,14 @@
   }
   
   .input_line{
+    position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   }
   
   .input{
+   
     padding: 10px;
     width : 320px;
     border-radius: 2px;
@@ -69,3 +70,17 @@
     border-width: 1px;
   }
   
+  .remove-btn {
+    position: absolute;
+    right: -25px;
+    background: none;
+    border: none;
+    color: #ff4444;
+    font-size: 1.5em;
+    cursor: pointer;
+ 
+}
+
+.remove-btn:hover {
+    color: #cc0000;
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MongoMissingCredentialsError } from "typeorm/browser";
+
 
 const apiClient = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -12,7 +12,6 @@ export const fetchCurrencies = async (abbreviations) => {
     try {
         
         const response = await apiClient.post("/get-start-data", { abbreviations });
-        console.log(response.data)
         return response.data;
 
     } catch (error) {
@@ -30,5 +29,28 @@ export const updateCurrency = async (abbreviation, rate, currencies) => {
         throw error;
     }
 };
+export const getDropdown = async () => {
+    try {
+        const response = await apiClient.get("/get-currencies");
+        return response.data;
+    } catch (error) {
+        console.error("Ошибка при запросе к API:", error);
+    }
+};
+
+export const addCurrency = async (baseAbbreviation, baseRate, newCurrencyAbbreviation) => {
+    try {
+        const response = await apiClient.post("/add-currency", { 
+            baseAbbreviation, 
+            baseRate,
+            newCurrencyAbbreviation 
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error adding currency:", error);
+        throw error;
+    }
+};
+
 
 export default apiClient;
